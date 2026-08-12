@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dentawy | PDFs Admin</title>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Luxurious+Roman&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Luxurious Roman", serif; text-decoration: none; list-style: none; }
+        body { min-height: 100vh; background: radial-gradient(circle at top right, rgba(194, 152, 63, .10), transparent 35%), #f6f7fb; color: #20242d; transition: .4s ease; }
+        
+        /* HEADER */
+        header { width: 100%; height: 80px; padding: 0 6%; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; background: rgba(255, 255, 255, .82); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(0, 0, 0, .08); }
+        .logo img { width: 85px; display: block; }
+        .back-btn { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 25px; background: #20242d; color: white; transition: .3s ease; }
+        .back-btn:hover { background: #C2983F; color: #20242d; transform: translateX(-5px); }
+        
+        /* MAIN */
+        main { width: min(1100px, 92%); margin: auto; padding: 70px 0 100px; }
+        .page-title { text-align: center; margin-bottom: 50px; }
+        .admin-icon { width: 90px; height: 90px; margin: auto; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; border-radius: 28px; background: #20242d; color: #C2983F; font-size: 38px; box-shadow: 0 15px 35px rgba(0, 0, 0, .20); transition: .4s ease; }
+        .admin-icon:hover { transform: translateY(-7px) rotate(-5deg); border-radius: 50%; }
+        .page-title h1 { font-size: clamp(2.3rem, 5vw, 4rem); letter-spacing: 2px; margin-bottom: 10px; }
+        .page-title h1 span { color: #C2983F; }
+        .page-title p { color: #777; font-size: 1.05rem; }
+        
+        /* ADMIN FORM */
+        .admin-box { background: rgba(255, 255, 255, .85); border: 1px solid rgba(194, 152, 63, .20); border-radius: 28px; padding: 35px; box-shadow: 0 20px 50px rgba(0, 0, 0, .08); backdrop-filter: blur(15px); margin-bottom: 50px; }
+        .box-title { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+        .box-title i { width: 45px; height: 45px; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: #20242d; color: #C2983F; }
+        .box-title h2 { font-size: 1.5rem; }
+        
+        /* FORM GRID */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full { grid-column: 1 / -1; }
+        label { font-size: .95rem; color: #555; font-weight: bold; }
+        input, select { width: 100%; height: 55px; padding: 0 18px; border-radius: 15px; border: 1px solid #ddd; outline: none; background: #fff; color: #20242d; font-size: 1rem; transition: .3s ease; }
+        input:focus, select:focus { border-color: #C2983F; box-shadow: 0 0 0 3px rgba(194, 152, 63, .12); }
+        
+        /* ADD BUTTON */
+        .add-btn { width: 100%; height: 55px; margin-top: 25px; border: none; border-radius: 16px; background: #20242d; color: white; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: .3s ease; }
+        .add-btn:hover { background: #C2983F; color: #20242d; transform: translateY(-3px); box-shadow: 0 10px 25px rgba(194, 152, 63, .20); }
+        
+        /* LIST */
+        .list-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; }
+        .list-title h2 { font-size: 1.7rem; }
+        .count { background: #20242d; color: #C2983F; padding: 7px 15px; border-radius: 20px; font-size: .85rem; }
+        #list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        
+        /* RECORD CARD */
+        .record-card { position: relative; padding: 25px; border-radius: 22px; background: white; border: 1px solid rgba(194, 152, 63, .18); box-shadow: 0 12px 35px rgba(0, 0, 0, .07); overflow: hidden; transition: .4s ease; }
+        .record-card::before { content: ""; position: absolute; width: 120px; height: 120px; right: -60px; top: -60px; border-radius: 50%; background: #C2983F; opacity: .08; transition: .4s ease; }
+        .record-card:hover { transform: translateY(-7px); border-color: #C2983F; box-shadow: 0 20px 45px rgba(0, 0, 0, .12); }
+        .record-card:hover::before { width: 200px; height: 200px; opacity: .14; }
+        .record-icon { width: 55px; height: 55px; border-radius: 17px; display: flex; align-items: center; justify-content: center; background: #20242d; color: #C2983F; font-size: 22px; margin-bottom: 20px; transition: .3s ease; }
+        .record-card:hover .record-icon { background: #C2983F; color: #20242d; transform: rotate(-5deg); }
+        .record-card h3 { font-size: 1.25rem; margin-bottom: 10px; word-break: break-word; }
+        .record-info { color: #888; font-size: .9rem; line-height: 1.8; margin-bottom: 18px; }
+        .subject-badge { display: inline-block; padding: 5px 10px; border-radius: 15px; background: rgba(194, 152, 63, .12); color: #9b7426; font-size: .8rem; margin-bottom: 15px; }
+        
+        /* DELETE */
+        .delete-btn { width: 100%; height: 43px; border: none; border-radius: 12px; background: rgba(220, 53, 69, .10); color: #dc3545; cursor: pointer; font-size: .9rem; transition: .3s ease; }
+        .delete-btn:hover { background: #dc3545; color: white; }
+        
+        /* EMPTY */
+        .empty { text-align: center; padding: 60px 20px; color: #888; background: white; border-radius: 25px; border: 1px solid rgba(194, 152, 63, .15); grid-column: 1/-1;}
+        .empty i { font-size: 45px; color: #C2983F; margin-bottom: 15px; }
+        
+        /* DARK MODE */
+        body.dark-mode { background: radial-gradient(circle at top right, rgba(194, 152, 63, .08), transparent 35%), #101217; color: #eee; }
+        body.dark-mode header { background: rgba(16, 18, 23, .88); border-color: rgba(255, 255, 255, .08); }
+        body.dark-mode .back-btn { background: #eee; color: #20242d; }
+        body.dark-mode .page-title p { color: #aaa; }
+        body.dark-mode .admin-box { background: rgba(25, 28, 35, .90); border-color: rgba(194, 152, 63, .18); box-shadow: 0 20px 50px rgba(0, 0, 0, .30); }
+        body.dark-mode label { color: #bbb; }
+        body.dark-mode input, body.dark-mode select { background: #191c23; color: #eee; border-color: #30343d; }
+        body.dark-mode .record-card { background: #191c23; border-color: rgba(194, 152, 63, .18); box-shadow: 0 15px 40px rgba(0, 0, 0, .30); }
+        body.dark-mode .record-info { color: #888; }
+        body.dark-mode .empty { background: #191c23; color: #888; }
+        
+        /* THEME BUTTON */
+        .theme-toggle { width: 62px; height: 32px; border: 2px solid #C2983F; border-radius: 50px; background: #1d1d1d; cursor: pointer; position: relative; }
+        .theme-toggle::before { content: "☀"; width: 26px; height: 26px; position: absolute; left: 2px; top: 1px; border-radius: 50%; background: #C2983F; color: white; display: flex; align-items: center; justify-content: center; font-size: 15px; transition: .4s ease; }
+        body.dark-mode .theme-toggle { background: #eee; }
+        body.dark-mode .theme-toggle::before { content: "☾"; left: 30px; background: #20242d; color: #C2983F; }
+
+        @media(max-width:700px) { header { height: 70px; padding: 0 20px; } .logo img { width: 70px; } .back-btn span { display: none; } main { padding-top: 50px; } .form-grid { grid-template-columns: 1fr; } .form-group.full { grid-column: auto; } .admin-box { padding: 25px 20px; } #list { grid-template-columns: 1fr; } }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="logo">
+            <img src="ChatGPT_Image_Jul_31__2026__08_03_49_PM-removebg-preview.png" alt="Dentawy">
+        </a>
+        <div style="display:flex;align-items:center;gap:15px;">
+            <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i><span>Back</span></a>
+            <button id="themeToggle" class="theme-toggle"></button>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-title">
+            <div class="admin-icon">
+                <i class="fa-solid fa-file-pdf"></i>
+            </div>
+            <h1>PDFs <span>Admin</span></h1>
+            <p>Manage all your educational PDFs</p>
+        </div>
+
+        <div class="admin-box">
+            <div class="box-title">
+                <i class="fa-solid fa-plus"></i>
+                <h2>Add New PDF</h2>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Subject</label>
+                    <select id="subject">
+                        <option value="oral-histology-and-embryology">Oral Histology and Embryology</option>
+                        <option value="dental-biomaterials">Dental Biomaterials</option>
+                        <option value="pharmacology">Pharmacology</option>
+                        <option value="general-pathology">General Pathology</option>
+                        <option value="microbiology">Microbiology</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>PDF Type</label>
+                    <select id="type">
+                        <option value="lectures">Lectures</option>
+                        <option value="sections">Sections</option>
+                    </select>
+                </div>
+
+                <div class="form-group full">
+                    <label>PDF Title</label>
+                    <input id="title" type="text" placeholder="Example: Inflammation Lecture 1">
+                </div>
+
+                <div class="form-group full">
+                    <label>PDF Link</label>
+                    <input id="link" type="url" placeholder="Paste Google Drive link">
+                </div>
+            </div>
+
+            <button class="add-btn" id="addBtn">
+                <i class="fa-solid fa-plus"></i> Add PDF
+            </button>
+        </div>
+
+        <div class="list-title">
+            <h2>Existing PDFs</h2>
+            <span class="count" id="count">0 PDFs</span>
+        </div>
+
+        <div id="list"></div>
+    </main>
+
+    <script>
+        /* =========================
+           FIREBASE
+        ========================= */
+        const firebaseConfig = {
+            // حط لينك قاعدة البيانات بتاعك هنا
+            databaseURL: "https://my-records-60940-default-rtdb.europe-west1.firebasedatabase.app/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        
+        // المسار الرئيسي لكل الـ PDFs
+        const db = firebase.database().ref("pdfs");
+
+        /* =========================
+           ADD PDF
+        ========================= */
+        document.getElementById("addBtn").addEventListener("click", function () {
+            const title = document.getElementById("title").value.trim();
+            const link = document.getElementById("link").value.trim();
+            const subject = document.getElementById("subject").value;
+            const type = document.getElementById("type").value;
+
+            if (!title || !link) {
+                alert("Please enter the PDF title and link.");
+                return;
+            }
+
+            // بيرمي الداتا في مسار متفرع: pdfs -> المادة -> النوع
+            db.child(subject).child(type).push({
+                title: title,
+                link: link,
+                date: new Date().toLocaleDateString()
+            });
+
+            document.getElementById("title").value = "";
+            document.getElementById("link").value = "";
+            alert("PDF added successfully!");
+        });
+
+        /* =========================
+           LOAD PDFs
+        ========================= */
+        db.on("value", snap => {
+            const list = document.getElementById("list");
+            const count = document.getElementById("count");
+            let html = "";
+            let total = 0;
+
+            snap.forEach(subjectSnap => {
+                const subjectName = subjectSnap.key;
+                
+                subjectSnap.forEach(typeSnap => {
+                    const typeName = typeSnap.key;
+                    
+                    typeSnap.forEach(item => {
+                        total++;
+                        const pdf = item.val();
+                        const subjectText = subjectName.replaceAll("-", " ");
+                        const typeText = typeName.replaceAll("-", " ");
+
+                        html += `
+                            <div class="record-card">
+                                <div class="record-icon">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </div>
+                                <span class="subject-badge">${subjectText}</span>
+                                <h3>${pdf.title || "Untitled PDF"}</h3>
+                                <div class="record-info">
+                                    <strong>Type:</strong> ${typeText} <br>
+                                    <strong>Date:</strong> ${pdf.date || "-"}
+                                </div>
+                                <button class="delete-btn" onclick="deletePDF('${subjectName}', '${typeName}', '${item.key}')">
+                                    <i class="fa-solid fa-trash"></i> Delete PDF
+                                </button>
+                            </div>
+                        `;
+                    });
+                });
+            });
+
+            if (!html) {
+                html = `
+                    <div class="empty">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <h2>No PDFs Yet</h2>
+                        <p>Add your first PDF above.</p>
+                    </div>
+                `;
+            }
+
+            list.innerHTML = html;
+            count.textContent = `${total} PDFs`;
+        });
+
+        /* =========================
+           DELETE
+        ========================= */
+        function deletePDF(subject, type, id) {
+            if (!confirm("Are you sure you want to delete this PDF?")) return;
+            db.child(subject).child(type).child(id).remove();
+        }
+
+        /* =========================
+           DARK MODE
+        ========================= */
+        const themeToggle = document.getElementById("themeToggle");
+        if (localStorage.getItem("dentawy-theme") === "dark") {
+            document.body.classList.add("dark-mode");
+        }
+        themeToggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+            const isDark = document.body.classList.contains("dark-mode");
+            localStorage.setItem("dentawy-theme", isDark ? "dark" : "light");
+        });
+    </script>
+</body>
+</html>

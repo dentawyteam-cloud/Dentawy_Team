@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dentawy | Subjects</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css">
+
+    <style>
+
+        /* =========================
+           RESET
+        ========================= */
+        @import url('https://fonts.googleapis.com/css2?family=Luxurious+Roman&display=swap');
+
+     * {
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+    font-family: "Luxurious Roman", serif;
+
+    text-transform: capitalize;
+
+    list-style: none;
+
+    text-decoration: none;
+
+    scroll-behavior: smooth;
+}
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f6f7fb;
+            color: #20242d;
+            transition: background .4s ease, color .4s ease;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            width: 100%;
+            height: 80px;
+
+            padding: 0 6%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(255, 255, 255, .85);
+            backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(0, 0, 0, .08);
+
+            transition: .4s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 85px;
+            display: block;
+        }
+
+
+        /* =========================
+           DARK MODE TOGGLE
+        ========================= */
+
+        .theme-toggle {
+            width: 64px;
+            height: 34px;
+
+            padding: 0;
+            border: 2px solid #C2983F;
+            border-radius: 50px;
+
+            background: #20242d;
+
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            cursor: pointer;
+
+            transition: all .4s ease;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .15);
+        }
+
+        .theme-toggle::before {
+            content: "";
+
+            position: absolute;
+
+            width: 26px;
+            height: 26px;
+
+            left: 2px;
+            top: 2px;
+
+            border-radius: 50%;
+
+            background: #C2983F;
+
+            transition: all .4s ease;
+
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .25);
+        }
+
+        .theme-toggle i {
+            position: absolute;
+
+            right: 7px;
+
+            color: #C2983F;
+
+            font-size: 14px;
+
+            z-index: 2;
+
+            transition: all .4s ease;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: #eeeeee;
+            border-color: #C2983F;
+        }
+
+        body.dark-mode .theme-toggle::before {
+            left: 32px;
+            background: #20242d;
+        }
+
+        body.dark-mode .theme-toggle i {
+            left: 7px;
+            right: auto;
+            color: #C2983F;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.08);
+        }
+
+        .theme-toggle:active {
+            transform: scale(.95);
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            padding: 80px 20px 40px;
+            text-align: center;
+        }
+
+        .hero-icon {
+            width: 90px;
+            height: 90px;
+
+            margin: auto;
+            margin-bottom: 25px;
+
+            border-radius: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #20242d;
+            color: #C2983F;
+
+            font-size: 38px;
+
+            box-shadow: 0 15px 35px rgba(0, 0, 0, .2);
+
+            transition: .4s ease;
+        }
+
+        .hero-icon:hover {
+            transform: translateY(-8px) rotate(-5deg);
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            margin-bottom: 12px;
+
+            letter-spacing: 3px;
+        }
+
+        .hero h1 span {
+            color: #C2983F;
+        }
+
+        .hero p {
+            color: #777;
+            font-size: 1.05rem;
+        }
+
+
+        /* =========================
+           SUBJECTS
+        ========================= */
+
+        .subjects-section {
+            width: min(1200px, 90%);
+            margin: auto;
+
+            padding-bottom: 100px;
+        }
+
+        .grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(270px, 1fr));
+
+            gap: 25px;
+        }
+
+
+        /* =========================
+           SUBJECT CARD
+        ========================= */
+
+        .subject-card {
+            position: relative;
+
+            min-height: 250px;
+
+            padding: 30px;
+
+            border-radius: 25px;
+
+            background: white;
+
+            border: 1px solid rgba(194, 152, 63, .2);
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, .08);
+
+            overflow: hidden;
+
+            transition:
+                transform .4s ease,
+                box-shadow .4s ease,
+                border-color .4s ease;
+        }
+
+        .subject-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 130px;
+            height: 130px;
+
+            right: -60px;
+            top: -60px;
+
+            border-radius: 50%;
+
+            background: #C2983F;
+
+            opacity: .1;
+
+            transition: .4s ease;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-10px);
+
+            border-color: #C2983F;
+
+            box-shadow:
+                0 25px 50px rgba(0, 0, 0, .14);
+        }
+
+        .subject-card:hover::before {
+            width: 220px;
+            height: 220px;
+
+            opacity: .18;
+        }
+
+
+        /* =========================
+           SUBJECT ICON
+        ========================= */
+
+        .subject-icon {
+            width: 60px;
+            height: 60px;
+
+            border-radius: 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #20242d;
+            color: #C2983F;
+
+            font-size: 24px;
+
+            margin-bottom: 25px;
+
+            transition: .4s ease;
+        }
+
+        .subject-card:hover .subject-icon {
+            background: #C2983F;
+            color: #20242d;
+
+            transform: rotate(-5deg);
+        }
+
+
+        /* =========================
+           SUBJECT TEXT
+        ========================= */
+
+        .subject-card h2 {
+            font-size: 1.3rem;
+
+            line-height: 1.4;
+
+            margin-bottom: 10px;
+
+            color: #20242d;
+        }
+
+        .subject-card small {
+            display: block;
+
+            color: #888;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================
+           OPEN SUBJECT BUTTON
+        ========================= */
+
+        .open-subject {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            padding: 11px 20px;
+
+            border-radius: 25px;
+
+            background: #20242d;
+            color: white;
+
+            text-decoration: none;
+
+            font-size: .9rem;
+
+            transition: .3s ease;
+        }
+
+        .open-subject:hover {
+            background: #C2983F;
+            color: #20242d;
+
+            transform: translateX(5px);
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 30px 20px;
+
+            text-align: center;
+
+            border-top: 1px solid #ddd;
+
+            color: #777;
+
+            background: white;
+
+            transition: .4s ease;
+        }
+
+        footer span {
+            color: #C2983F;
+        }
+
+
+        /* =========================
+           DARK MODE
+        ========================= */
+
+        body.dark-mode {
+            background: #101217;
+            color: #eeeeee;
+        }
+
+        body.dark-mode header {
+            background: rgba(16, 18, 23, .88);
+
+            border-bottom-color:
+                rgba(255, 255, 255, .08);
+        }
+
+        body.dark-mode .hero p {
+            color: #aaa;
+        }
+
+        body.dark-mode .subject-card {
+            background: #191c23;
+
+            border-color:
+                rgba(194, 152, 63, .2);
+
+            box-shadow:
+                0 20px 45px rgba(0, 0, 0, .3);
+        }
+
+        body.dark-mode .subject-card h2 {
+            color: #eeeeee;
+        }
+
+        body.dark-mode .subject-card small {
+            color: #888;
+        }
+
+        body.dark-mode .open-subject {
+            background: #eeeeee;
+            color: #20242d;
+        }
+
+        body.dark-mode .open-subject:hover {
+            background: #C2983F;
+            color: #20242d;
+        }
+
+        body.dark-mode footer {
+            background: #0c0e12;
+
+            border-top-color: #292d35;
+
+            color: #888;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            header {
+                height: 70px;
+                padding: 0 20px;
+            }
+
+            .logo img {
+                width: 70px;
+            }
+
+            .theme-toggle {
+                width: 64px;
+                height: 34px;
+            }
+
+            .theme-toggle::before {
+                width: 26px;
+                height: 26px;
+
+                top: 2px;
+                left: 2px;
+            }
+
+            body.dark-mode .theme-toggle::before {
+                left: 32px;
+            }
+
+            .theme-toggle i {
+                font-size: 14px;
+                right: 7px;
+            }
+
+            body.dark-mode .theme-toggle i {
+                left: 7px;
+            }
+
+            .hero {
+                padding-top: 60px;
+            }
+
+            .hero-icon {
+                width: 75px;
+                height: 75px;
+
+                font-size: 30px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .subject-card {
+                min-height: 220px;
+            }
+        }
+
+
+        @media (max-width: 300px) {
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .subject-card {
+                padding: 22px;
+            }
+
+            .subject-card h2 {
+                font-size: 1.1rem;
+            }
+        }
+.reveal {
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: opacity 1s ease, transform 2s ease;
+}
+
+.reveal.right {
+    transform: translateX(100px);
+}
+
+.reveal.up {
+    transform: translateY(100px);
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translate(0);
+}
+/* start of the footer */
+footer {
+    background-color: #1a1a1a;
+    padding: 50px 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   UPPER
+========================= */
+
+footer .upper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-bottom: 50px;
+
+    border-bottom: solid 1px #c5c5c5;
+
+    width: 100%;
+    max-width: 1200px;
+
+    gap: clamp(30px, 8vw, 200px);
+}
+
+
+/* SIDE 1 */
+
+footer .upper .side1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+footer .upper .side1 img {
+    width: clamp(100px, 20vw, 320px);
+    max-width: 100%;
+}
+
+footer .upper .side1 .navs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+footer .upper .side1 .navs a {
+    color: #c5c5c5;
+    font-size: clamp(1.2rem, 3vw, 3em);
+    transition: .4s ease-in-out;
+}
+
+footer .upper .side1 .navs a:hover {
+    color: #ffb700;
+}
+
+
+/* SIDE 2 */
+
+footer .upper .side2 {
+    min-width: 0;
+}
+
+footer .upper .side2 h4 {
+    color: #c5c5c5;
+    letter-spacing: 4px;
+    font-size: clamp(1.2rem, 2.5vw, 2em);
+    padding-bottom: 20px;
+}
+
+footer .upper .side2 ul {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+footer .upper .side2 li a {
+    color: #c5c5c5;
+    font-size: clamp(.9rem, 1.5vw, 1.2em);
+    transition: .4s ease-in-out;
+}
+
+footer .upper .side2 li a:hover {
+    color: #ffb700;
+    padding-left: 10px;
+}
+
+
+/* SIDE 3 */
+
+footer .upper .side3 {
+    color: #c5c5c5;
+    max-width: 300px;
+}
+
+footer .upper .side3 h4 {
+    font-size: clamp(1.2rem, 2.5vw, 2em);
+    padding-bottom: 20px;
+}
+
+footer .upper .side3 p {
+    font-size: clamp(.9rem, 1.5vw, 1.2em);
+    line-height: 1.7;
+}
+
+
+/* =========================
+   MIDEL
+========================= */
+
+footer .midel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 50px 0;
+
+    border-bottom: solid 1px #c5c5c5;
+
+    width: 100%;
+    max-width: 1200px;
+
+    gap: clamp(30px, 8vw, 200px);
+}
+
+
+/* MIDEL SIDE 1 */
+
+footer .midel .side1 {
+    text-align: center;
+}
+
+footer .midel .side1 a {
+    color: #c5c5c5;
+    font-size: clamp(.9rem, 1.5vw, 1.2em);
+    letter-spacing: clamp(1px, .5vw, 5px);
+    line-height: 1.6em;
+}
+
+
+/* MIDEL SIDE 2 */
+
+footer .midel .side2 {
+    text-align: center;
+}
+
+footer .midel .side2 h4 {
+    font-size: clamp(1.2rem, 2.5vw, 2em);
+    color: #c5c5c5;
+    padding-bottom: 20px;
+}
+
+footer .midel .side2 ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+}
+
+footer .midel .side2 ul li a {
+    color: #c5c5c5;
+    font-size: clamp(1rem, 2vw, 2em);
+    transition: .4s ease-in-out;
+}
+
+footer .midel .side2 ul li a:hover {
+    color: #ffb700;
+    margin-left: 20px;
+}
+
+
+/* MIDEL SIDE 3 */
+
+footer .midel .side3 img {
+    width: clamp(80px, 10vw, 160px);
+    max-width: 100%;
+}
+
+
+/* =========================
+   COPYRIGHT
+========================= */
+
+.footer-bottom {
+    width: 100%;
+    max-width: 1100px;
+
+    margin-top: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 20px;
+
+    text-align: center;
+}
+
+.copyright {
+    color: #c5c5c5;
+    font-size: clamp(.7rem, 1.5vw, 1em);
+    text-align: center;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+    footer {
+        padding: 40px 30px;
+    }
+
+    footer .upper,
+    footer .midel {
+        gap: 40px;
+    }
+    footer .midel .side2 ul li a{
+        font-size: 2em;
+    }
+    footer .upper .side1 .navs a{
+            font-size: 2em;
+
+}
+
+
+ 
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    footer {
+        padding: 35px 20px;
+    }
+
+    footer .upper,
+    footer .midel {
+        flex-direction: column;
+        align-items: center;
+
+        gap: 35px;
+
+        text-align: center;
+    }
+
+    footer .upper .side3 {
+        max-width: 400px;
+    }
+
+    footer .upper .side2 ul,
+    footer .midel .side2 ul {
+        align-items: center;
+    }
+
+}
+
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media (max-width: 400px) {
+
+    footer {
+        padding: 30px 12px;
+    }
+
+    footer .upper,
+    footer .midel {
+        gap: 25px;
+        padding-bottom: 30px;
+        padding-top: 30px;
+    }
+
+    footer .upper .side1 img {
+        width: 130px;
+    }
+
+    footer .upper .side2 h4,
+    footer .upper .side3 h4,
+    footer .midel .side2 h4 {
+        letter-spacing: 2px;
+    }
+
+}
+
+
+/* =========================
+   VERY SMALL - 200px
+========================= */
+
+@media (max-width: 250px) {
+
+    footer {
+        padding: 25px 8px;
+    }
+
+    footer .upper,
+    footer .midel {
+        width: 100%;
+        gap: 20px;
+    }
+
+    footer .upper .side1 img {
+        width: 100px;
+    }
+
+    footer .upper .side1 .navs {
+        gap: 5px;
+    }
+
+    footer .upper .side1 .navs a {
+        font-size: 1.2rem;
+    }
+
+    footer .upper .side2 h4,
+    footer .upper .side3 h4,
+    footer .midel .side2 h4 {
+        font-size: 1rem;
+        letter-spacing: 1px;
+        padding-bottom: 12px;
+    }
+
+
+    footer .midel .side1 a {
+        font-size: .75rem;
+        letter-spacing: 1px;
+    }
+
+    footer .midel .side2 ul li a {
+        font-size: .9rem;
+    }
+
+    footer .midel .side3 img {
+        width: 80px;
+    }
+
+    .copyright {
+        font-size: .65rem;
+        line-height: 1.5;
+    }
+     footer .midel .side2 ul li a{
+        font-size: 2em;
+    }
+footer .upper .side1 .navs a{
+            font-size: 2em;
+
+}
+
+}
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
+
+        <a href="index.html" class="logo">
+
+            <img
+                src="ChatGPT_Image_Jul_31__2026__08_03_49_PM-removebg-preview.png"
+                alt="Dentawy">
+
+        </a>
+
+
+        <button id="themeToggle" class="theme-toggle">
+
+            <i class="fa-solid fa-moon"></i>
+
+        </button>
+
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <section class="hero reveal">
+
+        <div class="hero-icon">
+
+            <i class="fa-solid fa-book-open"></i>
+
+        </div>
+
+
+        <h1>
+
+            Dentawy <span>Subjects</span>
+
+        </h1>
+
+
+        <p>
+
+            Choose a subject to explore lectures
+
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         SUBJECTS
+    ========================= -->
+
+    <section class="subjects-section">
+
+        <div class="grid reveal up">
+
+
+            <!-- SUBJECT 1 -->
+
+            <div class="subject-card">
+
+                <div class="subject-icon">
+
+                    <i class="fa-solid fa-microscope"></i>
+
+                </div>
+
+                <h2>
+                    Oral Histology and Embryology
+                </h2>
+
+                <small>
+                    lectures
+                </small>
+
+                <a
+                    href="oral-histology LECTURE PDF.html"
+                    class="open-subject">
+
+                    Open Subject
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+
+            <!-- SUBJECT 2 -->
+
+            <div class="subject-card">
+
+                <div class="subject-icon">
+
+                    <i class="fa-solid fa-flask"></i>
+
+                </div>
+
+                <h2>
+                    Dental Biomaterials 1
+                </h2>
+
+                <small>
+                    lectures
+                </small>
+
+                <a
+                    href="dental-biomaterials pdf lectures.html"
+                    class="open-subject">
+
+                    Open Subject
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+
+            <!-- SUBJECT 3 -->
+
+            <div class="subject-card">
+
+                <div class="subject-icon">
+
+                    <i class="fa-solid fa-pills"></i>
+
+                </div>
+
+                <h2>
+                    Pharmacology 1
+                </h2>
+
+                <small>
+                    lectures
+                </small>
+
+                <a
+                    href="pharmacology LECTURES pdf.html"
+                    class="open-subject">
+
+                    Open Subject
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+
+            <!-- SUBJECT 4 -->
+
+            <div class="subject-card">
+
+                <div class="subject-icon">
+
+                    <i class="fa-solid fa-virus"></i>
+
+                </div>
+
+                <h2>
+                    General Pathology 1
+                </h2>
+
+                <small>
+                    lectures
+                </small>
+
+                <a
+                    href="general-pathology lectures pdf.html"
+                    class="open-subject">
+
+                    Open Subject
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+
+            <!-- SUBJECT 5 -->
+
+            <div class="subject-card">
+
+                <div class="subject-icon">
+
+                    <i class="fa-solid fa-bacteria"></i>
+
+                </div>
+
+                <h2>
+                    Microbiology 1
+                </h2>
+
+                <small>
+                    lectures
+                </small>
+
+                <a
+                    href="microbiology PDFLECTURE.html"
+                    class="open-subject">
+
+                    Open Subject
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="upper reveal">
+
+            <div class="side1">
+
+                <img
+                    src="ChatGPT_Image_Jul_31__2026__08_03_49_PM-removebg-preview.png"
+                    alt="Dentawy Logo">
+
+                <div class="navs">
+
+                    <a href="https://chat.whatsapp.com/KjdY15iyBYd35f5GbLvneF?s=cl&p=a&mlu=4"
+                        target="_blank">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+
+                    <a href="https://t.me/DENTAWY_TEAM_2"
+                        target="_blank">
+                        <i class="fa-brands fa-telegram"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="side2">
+
+                <h4>Links</h4>
+
+                <ul>
+
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+
+                    <li>
+                        <a href="index.html#about">About</a>
+                    </li>
+
+                    <li>
+                        <a href="index.html#team">Team</a>
+                    </li>
+
+                    <li>
+                        <a href="index.html#feed">Feedback</a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="side3">
+
+                <h4>Belong</h4>
+
+                <p>
+                    Faculty Dentistry, Sohag University
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FOOTER MIDDLE -->
+
+        <div class="midel reveal">
+
+            <div class="side1">
+
+                <a
+                    href="https://7assan-a7med-mo7amed3.github.io/HASSAN-AHMED-ABD-AL-RAZAK/"
+                    target="_blank">
+
+                    <h4>
+                        Developer:<br>
+                        HASSAN ELBADAWY
+                    </h4>
+
+                </a>
+
+            </div>
+
+
+            <div class="side2">
+
+                <h4>Links</h4>
+
+                <ul>
+
+                    <li>
+                        <a
+                            href="https://www.instagram.com/hassan__elbadawy/"
+                            target="_blank">
+                            <i class="fa-brands fa-square-instagram"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="https://wa.me/201289773800"
+                            target="_blank">
+                            <i class="fa-brands fa-square-whatsapp"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="https://www.facebook.com/hassan.ahmed.552803"
+                            target="_blank">
+                            <i class="fa-brands fa-square-facebook"></i>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="side3">
+
+                <a
+                    href="https://7assan-a7med-mo7amed3.github.io/HASSAN-AHMED-ABD-AL-RAZAK/"
+                    target="_blank">
+
+                    <img src="slogan.png" alt="Slogan">
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- COPYRIGHT -->
+
+        <div class="footer-bottom">
+
+            <p class="copyright">
+                © 2026 Dentawy Team. All Rights Reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+         DARK MODE
+    ========================= -->
+
+    <script>
+
+        const themeToggle =
+            document.getElementById("themeToggle");
+
+
+        function updateThemeIcon() {
+
+            const isDark =
+                document.body.classList.contains("dark-mode");
+
+
+            themeToggle.innerHTML = isDark
+
+                ? '<i class="fa-solid fa-sun"></i>'
+
+                : '<i class="fa-solid fa-moon"></i>';
+
+        }
+
+
+        const savedTheme =
+            localStorage.getItem("dentawy-theme");
+
+
+        if (savedTheme === "dark") {
+
+            document.body.classList.add("dark-mode");
+
+        }
+
+
+        updateThemeIcon();
+
+
+        themeToggle.addEventListener("click", () => {
+
+            document.body.classList.toggle("dark-mode");
+
+
+            const isDark =
+                document.body.classList.contains("dark-mode");
+
+
+            localStorage.setItem(
+                "dentawy-theme",
+                isDark ? "dark" : "light"
+            );
+
+
+            updateThemeIcon();
+
+        });
+        const reveals =
+    document.querySelectorAll(".reveal");
+
+
+const observer =
+    new IntersectionObserver(
+
+        (entries) => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("show");
+
+                    observer.unobserve(
+                        entry.target
+                    );
+
+                }
+
+            });
+
+        },
+
+        {
+            threshold: 0.5
+        }
+
+    );
+
+
+reveals.forEach(element => {
+
+    observer.observe(element);
+
+});
+
+    </script>
+
+
+</body>
+
+</html>

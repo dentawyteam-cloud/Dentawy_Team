@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dentawy | Pharmacology</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Luxurious+Roman&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Luxurious Roman", serif;
+            text-transform: capitalize;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f6f7fb;
+            color: #20242d;
+            transition: background .4s ease, color .4s ease;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            width: 100%;
+            height: 80px;
+            padding: 0 6%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(255, 255, 255, .85);
+            backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(0, 0, 0, .08);
+
+            transition: .4s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 85px;
+            display: block;
+        }
+
+        /* =========================
+           DARK MODE
+        ========================= */
+
+        .theme-toggle {
+            width: 65px;
+            height: 32px;
+
+            padding: 0;
+            border: 2px solid #C2983F;
+            border-radius: 50px;
+
+            background: #1d1d1d;
+
+            display: flex;
+            align-items: center;
+
+            cursor: pointer;
+            position: relative;
+
+            transition: .4s ease;
+        }
+
+        .theme-toggle::before {
+            content: "☀";
+
+            width: 26px;
+            height: 26px;
+
+            position: absolute;
+            left: 2px;
+            top: 1px;
+
+            border-radius: 50%;
+
+            background: #C2983F;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 15px;
+
+            transition: .4s ease;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: #eeeeee;
+        }
+
+        body.dark-mode .theme-toggle::before {
+            content: "☾";
+            left: 33px;
+
+            background: #20242d;
+            color: #C2983F;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            padding: 80px 20px 40px;
+            text-align: center;
+        }
+
+        .hero-icon {
+            width: 90px;
+            height: 90px;
+
+            margin: auto;
+            margin-bottom: 25px;
+
+            border-radius: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #20242d;
+            color: #C2983F;
+
+            font-size: 38px;
+
+            box-shadow: 0 15px 35px rgba(0, 0, 0, .2);
+
+            transition: .4s ease;
+        }
+
+        .hero-icon:hover {
+            transform: translateY(-8px) rotate(-5deg);
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            margin-bottom: 12px;
+            letter-spacing: 3px;
+        }
+
+        .hero h1 span {
+            color: #C2983F;
+        }
+
+        .hero p {
+            color: #777;
+            font-size: 1.05rem;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-container {
+            width: min(700px, 90%);
+            margin: 20px auto 60px;
+            position: relative;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #888;
+        }
+
+        #search {
+            width: 100%;
+            height: 58px;
+
+            border: 1px solid #ddd;
+            border-radius: 30px;
+
+            outline: none;
+
+            padding: 0 55px 0 50px;
+
+            font-size: 1rem;
+
+            background: white;
+            color: #20242d;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+
+            transition: .3s ease;
+        }
+
+        #search:focus {
+            border-color: #C2983F;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, .08),
+                0 0 0 3px rgba(194, 152, 63, .15);
+        }
+
+        /* =========================
+           PDF GRID
+        ========================= */
+
+        .records-section {
+            width: min(1200px, 90%);
+            margin: auto;
+
+            padding-bottom: 100px;
+        }
+
+        .grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(270px, 1fr));
+
+            gap: 25px;
+        }
+
+        /* =========================
+           PDF CARD
+        ========================= */
+
+        .card {
+            position: relative;
+
+            min-height: 240px;
+
+            padding: 30px;
+
+            border-radius: 25px;
+
+            background: white;
+
+            border: 1px solid rgba(194, 152, 63, .2);
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, .08);
+
+            overflow: hidden;
+
+            transition:
+                transform .4s ease,
+                box-shadow .4s ease,
+                border-color .4s ease;
+        }
+
+        .card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 130px;
+            height: 130px;
+
+            right: -60px;
+            top: -60px;
+
+            border-radius: 50%;
+
+            background: #C2983F;
+
+            opacity: .1;
+
+            transition: .4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+
+            border-color: #C2983F;
+
+            box-shadow:
+                0 25px 50px rgba(0, 0, 0, .14);
+        }
+
+        .card:hover::before {
+            width: 220px;
+            height: 220px;
+            opacity: .18;
+        }
+
+        /* =========================
+           PDF ICON
+        ========================= */
+
+        .record-icon {
+            width: 60px;
+            height: 60px;
+
+            border-radius: 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #20242d;
+            color: #C2983F;
+
+            font-size: 24px;
+
+            margin-bottom: 25px;
+
+            transition: .4s ease;
+        }
+
+        .card:hover .record-icon {
+            background: #C2983F;
+            color: #20242d;
+
+            transform: rotate(-5deg);
+        }
+
+        /* =========================
+           TEXT
+        ========================= */
+
+        .card h2 {
+            font-size: 1.35rem;
+
+            margin-bottom: 10px;
+
+            color: #20242d;
+
+            word-break: break-word;
+        }
+
+        .card small {
+            display: block;
+
+            color: #888;
+
+            margin-bottom: 25px;
+        }
+
+        /* =========================
+           OPEN PDF
+        ========================= */
+
+        .open-record {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            padding: 11px 20px;
+
+            border-radius: 25px;
+
+            background: #20242d;
+            color: white;
+
+            font-size: .9rem;
+
+            transition: .3s ease;
+        }
+
+        .open-record:hover {
+            background: #C2983F;
+            color: #20242d;
+
+            transform: translateX(5px);
+        }
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty {
+            text-align: center;
+
+            padding: 60px 20px;
+
+            color: #888;
+
+            display: none;
+        }
+
+        .empty i {
+            font-size: 45px;
+
+            margin-bottom: 15px;
+
+            color: #C2983F;
+        }
+
+        /* =========================
+           ADMIN
+        ========================= */
+
+        .admin-button {
+            position: fixed;
+
+            right: 25px;
+            bottom: 25px;
+
+            width: 55px;
+            height: 55px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: #20242d;
+            color: #C2983F;
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, .25);
+
+            transition: .3s ease;
+
+            z-index: 1000;
+        }
+
+        .admin-button:hover {
+            transform: translateY(-5px) rotate(10deg);
+
+            background: #C2983F;
+            color: #20242d;
+        }
+
+        /* =========================
+           DARK MODE
+        ========================= */
+
+        body.dark-mode {
+            background: #101217;
+            color: #eeeeee;
+        }
+
+        body.dark-mode header {
+            background: rgba(16, 18, 23, .88);
+
+            border-bottom-color:
+                rgba(255, 255, 255, .08);
+        }
+
+        body.dark-mode .hero p {
+            color: #aaa;
+        }
+
+        body.dark-mode #search {
+            background: #191c23;
+            color: white;
+
+            border-color: #30343d;
+        }
+
+        body.dark-mode #search::placeholder {
+            color: #777;
+        }
+
+        body.dark-mode .card {
+            background: #191c23;
+
+            border-color:
+                rgba(194, 152, 63, .2);
+
+            box-shadow:
+                0 20px 45px rgba(0, 0, 0, .3);
+        }
+
+        body.dark-mode .card h2 {
+            color: #eeeeee;
+        }
+
+        body.dark-mode .card small {
+            color: #888;
+        }
+
+        body.dark-mode .open-record {
+            background: #eeeeee;
+            color: #20242d;
+        }
+
+        body.dark-mode .open-record:hover {
+            background: #C2983F;
+        }
+
+        body.dark-mode .admin-button {
+            background: #eeeeee;
+            color: #20242d;
+        }
+
+        body.dark-mode .admin-button:hover {
+            background: #C2983F;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            header {
+                height: 70px;
+                padding: 0 20px;
+            }
+
+            .logo img {
+                width: 70px;
+            }
+
+            .theme-toggle {
+                width: 58px;
+                height: 32px;
+            }
+
+            .theme-toggle::before {
+                width: 26px;
+                height: 26px;
+            }
+
+            body.dark-mode .theme-toggle::before {
+                left: 29px;
+            }
+
+            .hero {
+                padding-top: 60px;
+            }
+
+            .hero-icon {
+                width: 75px;
+                height: 75px;
+                font-size: 30px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                min-height: 220px;
+            }
+
+            .admin-button {
+                width: 48px;
+                height: 48px;
+
+                right: 15px;
+                bottom: 15px;
+            }
+        }
+
+        @media (max-width: 300px) {
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            #search {
+                height: 50px;
+                font-size: .85rem;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .card h2 {
+                font-size: 1.1rem;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <a href="index.html" class="logo">
+
+            <img
+                src="ChatGPT_Image_Jul_31__2026__08_03_49_PM-removebg-preview.png"
+                alt="Dentawy">
+
+        </a>
+
+        <button id="themeToggle" class="theme-toggle"></button>
+
+    </header>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-icon">
+
+            <i class="fa-solid fa-pills"></i>
+
+        </div>
+
+        <h1>
+            <span>Pharmacology pdfs</span>
+        </h1>
+
+        <p>
+            Explore all available Pharmacology lectures and educational PDFs
+        </p>
+
+    </section>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-container">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input
+            type="text"
+            id="search"
+            placeholder="Search for a Pharmacology PDF...">
+
+    </div>
+
+
+    <!-- PDFS -->
+
+    <section class="records-section">
+
+        <div class="grid" id="records"></div>
+
+        <div class="empty" id="empty">
+
+            <i class="fa-solid fa-file-circle-xmark"></i>
+
+            <h2>No Pharmacology PDFs found</h2>
+
+            <p>Try searching for another PDF.</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ADMIN BUTTON -->
+
+    <button
+        id="secretBtn"
+        class="admin-button"
+        title="Admin">
+
+        <i class="fa-solid fa-user-shield"></i>
+
+    </button>
+
+
+    <script>
+
+        /* =========================
+           FIREBASE
+        ========================= */
+
+        const firebaseConfig = {
+
+            databaseURL:
+                "https://my-records-60940-default-rtdb.europe-west1.firebasedatabase.app/"
+
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+
+        /*
+           Firebase path
+        */
+
+        const db = firebase.database().ref("pdfs/pharmacology/lectures");
+
+
+        let all = [];
+
+
+        db.on("value", snap => {
+
+            all = [];
+
+            snap.forEach(item => {
+
+                all.push(item.val());
+
+            });
+
+            render(all);
+
+        });
+
+
+        /* =========================
+           RENDER PDFS
+        ========================= */
+
+        function render(list) {
+
+            const records =
+                document.getElementById("records");
+
+            const empty =
+                document.getElementById("empty");
+
+
+            records.innerHTML = "";
+
+
+            if (list.length === 0) {
+
+                empty.style.display = "block";
+
+                return;
+
+            }
+
+
+            empty.style.display = "none";
+
+
+            list.forEach(record => {
+
+                const card =
+                    document.createElement("div");
+
+
+                card.className = "card";
+
+
+                card.innerHTML = `
+
+                    <div class="record-icon">
+
+                        <i class="fa-solid fa-file-pdf"></i>
+
+                    </div>
+
+
+                    <h2>
+
+                        ${record.title || "Untitled PDF"}
+
+                    </h2>
+
+
+                    <small>
+
+                        Pharmacology PDF
+
+                    </small>
+
+
+                    <a
+                        href="${record.link || "#"}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="open-record">
+
+                        Open PDF
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                `;
+
+
+                records.appendChild(card);
+
+            });
+
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        document
+            .getElementById("search")
+            .addEventListener("input", function () {
+
+                const value =
+                    this.value.toLowerCase().trim();
+
+
+                const filtered =
+                    all.filter(record => {
+
+                        return (record.title || "")
+                            .toLowerCase()
+                            .includes(value);
+
+                    });
+
+
+                render(filtered);
+
+            });
+
+
+        /* =========================
+           DARK MODE
+        ========================= */
+
+        const themeToggle =
+            document.getElementById("themeToggle");
+
+
+        const savedTheme =
+            localStorage.getItem("dentawy-theme");
+
+
+        if (savedTheme === "dark") {
+
+            document.body.classList.add("dark-mode");
+
+        }
+
+
+        themeToggle.addEventListener("click", () => {
+
+            document.body.classList.toggle("dark-mode");
+
+
+            const isDark =
+                document.body.classList.contains("dark-mode");
+
+
+            localStorage.setItem(
+                "dentawy-theme",
+                isDark ? "dark" : "light"
+            );
+
+        });
+
+
+        /* =========================
+           ADMIN
+        ========================= */
+
+        const adminPassword = "RAZAK";
+
+
+        document
+            .getElementById("secretBtn")
+            .addEventListener("click", () => {
+
+
+                const input =
+                    prompt("Enter admin password:");
+
+
+                if (input === adminPassword) {
+
+                    window.location.href =
+                        "admin.pdf.html";
+
+                }
+
+                else if (input !== null) {
+
+                    alert("Wrong password!");
+
+                }
+
+            });
+
+    </script>
+
+</body>
+
+</html>
