@@ -12,8 +12,685 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="icon" href="ChatGPT_Image_Jul_31__2026__08_03_49_PM-removebg-preview.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css">
+
+
+
+
+<style>
+.fullscreen-btn {
+    position: fixed !important;
+    left: 22px !important;
+    right: auto !important;
+    bottom: 22px !important;
+    width: 52px !important;
+    height: 52px !important;
+    z-index: 2147483647 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid rgba(201, 162, 77, .75) !important;
+    border-radius: 16px !important;
+    background: rgba(8, 8, 8, .78) !important;
+    color: #d9b65c !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    cursor: pointer !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,.35), 0 0 18px rgba(201,162,77,.08) !important;
+    transition: transform .3s ease, color .3s ease, box-shadow .3s ease !important;
+}
+
+.fullscreen-btn:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    color: #fff1b0 !important;
+    box-shadow: 0 12px 35px rgba(0,0,0,.45), 0 0 24px rgba(201,162,77,.18) !important;
+}
+
+.fullscreen-btn.is-fullscreen {
+    color: #fff1b0 !important;
+    border-color: #f0d27b !important;
+}
+
+@media (max-width: 600px) {
+    .fullscreen-btn {
+        left: 15px !important;
+        bottom: 15px !important;
+        width: 46px !important;
+        height: 46px !important;
+    }
+}
+</style>
+
 </head>
 <body>
+  
+
+
+<script>
+(() => {
+    const btn = document.getElementById("fullscreenBtn");
+    if (!btn) return;
+
+    btn.addEventListener("click", async () => {
+        try {
+            if (!document.fullscreenElement) {
+                await document.documentElement.requestFullscreen();
+            } else {
+                await document.exitFullscreen();
+            }
+        } catch (error) {
+            console.error("Fullscreen error:", error);
+        }
+    });
+
+    document.addEventListener("fullscreenchange", () => {
+        const icon = btn.querySelector("i");
+        const active = !!document.fullscreenElement;
+        btn.classList.toggle("is-fullscreen", active);
+        icon.className = active ? "fa-solid fa-compress" : "fa-solid fa-expand";
+        btn.title = active ? "Exit fullscreen" : "Fullscreen";
+    });
+})();
+</script>
+
+
+
+<button class="fullscreen-btn" id="fullscreenBtn" type="button" aria-label="Toggle fullscreen" title="Fullscreen">
+    <i class="fa-solid fa-expand"></i>
+</button>
+
+<script>
+(function () {
+    const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+    if (!fullscreenBtn) return;
+
+    fullscreenBtn.addEventListener("click", async function () {
+        try {
+            if (!document.fullscreenElement) {
+                await document.documentElement.requestFullscreen();
+            } else {
+                await document.exitFullscreen();
+            }
+        } catch (error) {
+            console.error("Fullscreen error:", error);
+        }
+    });
+
+    document.addEventListener("fullscreenchange", function () {
+        const icon = fullscreenBtn.querySelector("i");
+
+        if (document.fullscreenElement) {
+            fullscreenBtn.classList.add("is-fullscreen");
+            icon.className = "fa-solid fa-compress";
+            fullscreenBtn.title = "Exit fullscreen";
+        } else {
+            fullscreenBtn.classList.remove("is-fullscreen");
+            icon.className = "fa-solid fa-expand";
+            fullscreenBtn.title = "Fullscreen";
+        }
+    });
+})();
+</script>
+
+</body>
+
+
+<div class="dentawy-intro" id="dentawyIntro">
+  <div class="dg-noise"></div>
+  <div class="dg-vignette"></div>
+
+  <div class="dg-glow dg-glow-left"></div>
+  <div class="dg-glow dg-glow-right"></div>
+
+  <div class="dg-grid"></div>
+
+  
+  <div class="dg-ring dg-ring-1"></div>
+  <div class="dg-ring dg-ring-2"></div>
+  <div class="dg-ring dg-ring-3"></div>
+
+  
+  <span class="dg-star s1">✦</span>
+  <span class="dg-star s2">✧</span>
+  <span class="dg-star s3">✦</span>
+  <span class="dg-star s4">✧</span>
+  <span class="dg-star s5">✦</span>
+  <span class="dg-star s6">✧</span>
+
+  <div class="dg-center">
+    <div class="dg-overline">WELCOME TO</div>
+
+    <div class="dg-brand">
+      <span>DENTAWY</span>
+      <b>TEAM</b>
+    </div>
+
+    <div class="dg-divider">
+      <i></i>
+      <span>◆</span>
+      <i></i>
+    </div>
+
+    <div class="dg-subtitle">
+      CREATIVE &nbsp;·&nbsp; DEVELOPMENT &nbsp;·&nbsp; DIGITAL EXPERIENCE
+    </div>
+  </div>
+
+  <div class="dg-corner dg-tl"></div>
+  <div class="dg-corner dg-tr"></div>
+  <div class="dg-corner dg-bl"></div>
+  <div class="dg-corner dg-br"></div>
+
+  <div class="dg-loader">
+    <div class="dg-loader-top">
+      <span>INITIALIZING DENTAWY</span>
+      <b id="dgPercent">00%</b>
+    </div>
+    <div class="dg-loader-track">
+      <i id="dgProgress"></i>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ===============================
+   DENTAWY BLACK & GOLD INTRO
+   =============================== */
+
+.dentawy-intro{
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  background:#050505;
+  color:#fff;
+  isolation:isolate;
+  opacity:1;
+}
+
+.dentawy-intro.dg-exit{
+  animation:dgExit 1.35s cubic-bezier(.77,0,.18,1) forwards;
+  pointer-events:none;
+}
+
+@keyframes dgExit{
+  0%{
+    opacity:1;
+    clip-path:inset(0 0 0 0);
+    transform:scale(1);
+  }
+  45%{
+    opacity:1;
+    transform:scale(1.018);
+  }
+  100%{
+    opacity:0;
+    clip-path:inset(0 0 100% 0);
+    transform:scale(1.035);
+  }
+}
+
+/* dark cinematic vignette */
+.dg-vignette{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at center,
+      transparent 25%,
+      rgba(0,0,0,.28) 65%,
+      rgba(0,0,0,.85) 100%);
+}
+
+/* subtle film noise */
+.dg-noise{
+  position:absolute;
+  inset:0;
+  z-index:11;
+  pointer-events:none;
+  opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* black/gold ambient lighting */
+.dg-glow{
+  position:absolute;
+  width:42vw;
+  height:42vw;
+  min-width:280px;
+  min-height:280px;
+  border-radius:50%;
+  filter:blur(95px);
+  opacity:.18;
+  pointer-events:none;
+}
+
+.dg-glow-left{
+  left:-17%;
+  top:-18%;
+  background:#c89b3c;
+  animation:dgGlowLeft 6s ease-in-out infinite alternate;
+}
+
+.dg-glow-right{
+  right:-18%;
+  bottom:-20%;
+  background:#8d651b;
+  animation:dgGlowRight 7s ease-in-out infinite alternate;
+}
+
+@keyframes dgGlowLeft{
+  to{transform:translate(80px,60px) scale(1.12)}
+}
+
+@keyframes dgGlowRight{
+  to{transform:translate(-70px,-60px) scale(1.15)}
+}
+
+/* technical gold grid */
+.dg-grid{
+  position:absolute;
+  inset:-20%;
+  opacity:.065;
+  background-image:
+    linear-gradient(rgba(201,158,67,.65) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,158,67,.65) 1px,transparent 1px);
+  background-size:58px 58px;
+  transform:perspective(800px) rotateX(63deg) translateY(28%);
+  transform-origin:center bottom;
+  animation:dgGrid 5s linear infinite;
+}
+
+@keyframes dgGrid{
+  to{background-position:0 58px,58px 0}
+}
+
+/* rings */
+.dg-ring{
+  position:absolute;
+  border-radius:50%;
+  border:1px solid rgba(201,158,67,.20);
+  opacity:0;
+  transform:scale(.25) rotate(0);
+}
+
+.dg-ring:before{
+  content:"";
+  position:absolute;
+  inset:9%;
+  border-radius:50%;
+  border:1px solid rgba(238,207,126,.10);
+}
+
+.dg-ring:after{
+  content:"";
+  position:absolute;
+  inset:20%;
+  border-radius:50%;
+  border:1px dashed rgba(201,158,67,.16);
+}
+
+.dg-ring-1{
+  width:min(72vw,820px);
+  height:min(72vw,820px);
+  animation:
+    dgRingIn 1.5s cubic-bezier(.16,1,.3,1) .05s forwards,
+    dgSpin 22s linear 1.5s infinite;
+}
+
+.dg-ring-2{
+  width:min(54vw,620px);
+  height:min(54vw,620px);
+  border-color:rgba(238,207,126,.13);
+  animation:
+    dgRingIn2 1.35s cubic-bezier(.16,1,.3,1) .18s forwards,
+    dgSpinReverse 16s linear 1.5s infinite;
+}
+
+.dg-ring-3{
+  width:min(35vw,400px);
+  height:min(35vw,400px);
+  border-color:rgba(201,158,67,.10);
+  animation:
+    dgRingIn3 1.2s cubic-bezier(.16,1,.3,1) .3s forwards,
+    dgSpin 11s linear 1.5s infinite;
+}
+
+@keyframes dgRingIn{
+  to{opacity:1;transform:scale(1) rotate(18deg)}
+}
+
+@keyframes dgRingIn2{
+  to{opacity:.75;transform:scale(1) rotate(-24deg)}
+}
+
+@keyframes dgRingIn3{
+  to{opacity:.6;transform:scale(1) rotate(35deg)}
+}
+
+@keyframes dgSpin{
+  to{transform:scale(1) rotate(378deg)}
+}
+
+@keyframes dgSpinReverse{
+  to{transform:scale(1) rotate(-385deg)}
+}
+
+/* stars */
+.dg-star{
+  position:absolute;
+  z-index:4;
+  color:#e7c66d;
+  font-size:18px;
+  opacity:0;
+  text-shadow:
+    0 0 7px rgba(238,207,126,.9),
+    0 0 24px rgba(201,158,67,.45);
+  animation:
+    dgStarIn .8s cubic-bezier(.16,1,.3,1) forwards,
+    dgStarFloat 3.5s ease-in-out 1.2s infinite;
+}
+
+.s1{left:15%;top:26%;font-size:20px;animation-delay:.15s,1.15s}
+.s2{right:17%;top:31%;font-size:14px;animation-delay:.28s,1.28s}
+.s3{left:21%;bottom:24%;font-size:15px;animation-delay:.42s,1.42s}
+.s4{right:23%;bottom:20%;font-size:21px;animation-delay:.56s,1.56s}
+.s5{left:30%;top:17%;font-size:10px;animation-delay:.7s,1.7s}
+.s6{right:30%;top:19%;font-size:11px;animation-delay:.82s,1.82s}
+
+@keyframes dgStarIn{
+  from{opacity:0;transform:scale(0) rotate(-90deg)}
+  to{opacity:.85;transform:scale(1) rotate(0)}
+}
+
+@keyframes dgStarFloat{
+  50%{transform:translateY(-13px) rotate(8deg)}
+}
+
+/* center content */
+.dg-center{
+  position:relative;
+  z-index:20;
+  width:min(1000px,90vw);
+  text-align:center;
+}
+
+.dg-overline{
+  font:500 10px/1 Arial,sans-serif;
+  letter-spacing:8px;
+  color:rgba(255,255,255,.46);
+  opacity:0;
+  animation:dgUp .7s .45s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+.dg-brand{
+  margin:25px 0 21px;
+  font:900 clamp(3.5rem,11vw,9.5rem)/.78 Arial,sans-serif;
+  letter-spacing:-.075em;
+  opacity:0;
+  transform:translateY(35px) scale(.86);
+  filter:blur(14px);
+  animation:dgBrandIn 1.05s .58s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+.dg-brand span{
+  display:block;
+  background:
+    linear-gradient(
+      105deg,
+      #fff 0%,
+      #fff7df 22%,
+      #d8ad50 46%,
+      #fff0b5 62%,
+      #9a6d1d 84%,
+      #f4d47d 100%
+    );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:0 0 35px rgba(201,158,67,.08);
+}
+
+.dg-brand b{
+  display:block;
+  margin-top:11px;
+  color:rgba(201,158,67,.75);
+  font:500 .24em/1 Arial,sans-serif;
+  letter-spacing:.65em;
+  padding-left:.65em;
+}
+
+@keyframes dgBrandIn{
+  0%{
+    opacity:0;
+    transform:translateY(35px) scale(.86);
+    filter:blur(14px);
+  }
+  65%{
+    opacity:1;
+    transform:translateY(-4px) scale(1.025);
+    filter:blur(0);
+  }
+  100%{
+    opacity:1;
+    transform:none;
+    filter:none;
+  }
+}
+
+/* divider */
+.dg-divider{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  width:min(390px,62vw);
+  margin:auto;
+  opacity:0;
+  animation:dgFade .5s 1s forwards;
+}
+
+.dg-divider i{
+  display:block;
+  height:1px;
+  flex:1;
+  background:linear-gradient(90deg,transparent,#b88a2c);
+}
+
+.dg-divider i:last-child{
+  background:linear-gradient(90deg,#b88a2c,transparent);
+}
+
+.dg-divider span{
+  color:#d8b65c;
+  font-size:8px;
+  text-shadow:0 0 12px #c89b3c;
+}
+
+.dg-subtitle{
+  margin-top:17px;
+  color:rgba(255,255,255,.34);
+  font-size:8px;
+  letter-spacing:3.8px;
+  opacity:0;
+  animation:dgUp .7s 1.08s forwards;
+}
+
+/* loader */
+.dg-loader{
+  position:absolute;
+  z-index:30;
+  left:50%;
+  bottom:34px;
+  transform:translateX(-50%);
+  width:min(370px,72vw);
+  opacity:0;
+  animation:dgFade .5s .8s forwards;
+}
+
+.dg-loader-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:rgba(255,255,255,.28);
+  font:500 8px/1 Arial,sans-serif;
+  letter-spacing:2px;
+}
+
+.dg-loader-top b{
+  color:#d5b15a;
+  font-weight:500;
+  letter-spacing:1px;
+}
+
+.dg-loader-track{
+  height:1px;
+  margin-top:11px;
+  background:rgba(255,255,255,.1);
+  overflow:hidden;
+}
+
+.dg-loader-track i{
+  display:block;
+  width:0;
+  height:100%;
+  background:
+    linear-gradient(
+      90deg,
+      #80601d,
+      #d8b65c,
+      #fff0b0,
+      #b88a2c
+    );
+  box-shadow:
+    0 0 8px rgba(216,182,92,.85),
+    0 0 20px rgba(201,158,67,.35);
+}
+
+/* corners */
+.dg-corner{
+  position:absolute;
+  z-index:20;
+  width:65px;
+  height:65px;
+  opacity:.45;
+}
+
+.dg-corner:before,
+.dg-corner:after{
+  content:"";
+  position:absolute;
+  background:#c9a04b;
+}
+
+.dg-tl{
+  top:32px;
+  left:32px;
+  border-top:1px solid rgba(201,158,67,.45);
+  border-left:1px solid rgba(201,158,67,.45);
+}
+
+.dg-tr{
+  top:32px;
+  right:32px;
+  border-top:1px solid rgba(201,158,67,.25);
+  border-right:1px solid rgba(201,158,67,.25);
+}
+
+.dg-bl{
+  bottom:32px;
+  left:32px;
+  border-bottom:1px solid rgba(201,158,67,.25);
+  border-left:1px solid rgba(201,158,67,.25);
+}
+
+.dg-br{
+  right:32px;
+  bottom:32px;
+  border-bottom:1px solid rgba(201,158,67,.45);
+  border-right:1px solid rgba(201,158,67,.45);
+}
+
+@keyframes dgUp{
+  from{
+    opacity:0;
+    transform:translateY(18px);
+    filter:blur(7px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+    filter:none;
+  }
+}
+
+@keyframes dgFade{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+@media(max-width:600px){
+  .dg-ring-1{width:115vw;height:115vw}
+  .dg-ring-2{width:84vw;height:84vw}
+  .dg-ring-3{width:55vw;height:55vw}
+
+  .dg-brand{
+    letter-spacing:-.06em;
+  }
+
+  .dg-subtitle{
+    font-size:7px;
+    letter-spacing:2px;
+  }
+
+  .dg-corner{
+    width:42px;
+    height:42px;
+  }
+
+  .dg-tl,.dg-tr{top:20px}
+  .dg-bl,.dg-br{bottom:20px}
+  .dg-tl,.dg-bl{left:20px}
+  .dg-tr,.dg-br{right:20px}
+}
+</style>
+
+<script>
+(() => {
+  const intro = document.getElementById("dentawyIntro");
+  if (!intro) return;
+
+  const percent = document.getElementById("dgPercent");
+  const progress = document.getElementById("dgProgress");
+
+  const duration = 2400;
+  const start = performance.now();
+
+  function animateLoader(now){
+    const value = Math.min((now - start) / duration, 1);
+    const number = Math.round(value * 100);
+
+    if(percent) percent.textContent = String(number).padStart(2,"0") + "%";
+    if(progress) progress.style.width = (value * 100) + "%";
+
+    if(value < 1) requestAnimationFrame(animateLoader);
+  }
+
+  requestAnimationFrame(animateLoader);
+
+  // Intro finishes after the logo + loader animation.
+  setTimeout(() => {
+    intro.classList.add("dg-exit");
+  }, 3100);
+
+  setTimeout(() => {
+    intro.remove();
+  }, 4500);
+})();
+</script>
       <button id="backToTop" class="back-to-top">
     <i class="fa-solid fa-arrow-up"></i>
 </button>
@@ -131,7 +808,7 @@
     </h1>
     </div>
       <div class="card-cont reveal up">
-                <!-- Card 1 -->
+                
         <div class="card ">
             <div class="profile">
                 <img src="elbadry.jfif" alt="Alex Mahta">
@@ -170,7 +847,7 @@
         </div>
 
 
-        <!-- Card 2 -->
+        
         <div class="card active ">
             <div class="profile">
                 <img src="taha.jfif" alt="Demi Wilkinson">
@@ -208,7 +885,7 @@
         </div>
 
 
-        <!-- Card 3 -->
+        
         <div class="card mnmm ">
             <div class="profile">
                 <img src="mahmoud.jfif" alt="Michel Don">
@@ -450,16 +1127,101 @@ const observer = new IntersectionObserver((entries) => {
     });
 
 }, {
-    threshold: .05
+    threshold: .50
 });
 
 reveals.forEach(element => {
     observer.observe(element);
 });
 </script>
+
+
+
+<script>
+(() => {
+    const btn = document.getElementById("fullscreenBtn");
+    if (!btn) return;
+
+    btn.addEventListener("click", async () => {
+        try {
+            if (!document.fullscreenElement) {
+                await document.documentElement.requestFullscreen();
+            } else {
+                await document.exitFullscreen();
+            }
+        } catch (error) {
+            console.error("Fullscreen error:", error);
+        }
+    });
+
+    document.addEventListener("fullscreenchange", () => {
+        const icon = btn.querySelector("i");
+        const active = !!document.fullscreenElement;
+        btn.classList.toggle("is-fullscreen", active);
+        icon.className = active ? "fa-solid fa-compress" : "fa-solid fa-expand";
+        btn.title = active ? "Exit fullscreen" : "Fullscreen";
+    });
+})();
+</script>
+
+
+<div id="page-container">
+    <div class="page-overlay"></div>
+
+    <button id="close-project" type="button">
+        ×
+    </button>
+
+    <iframe
+        id="pageFrame"
+        src="about:blank"
+        allowfullscreen>
+    </iframe>
+    
+</div>
+<script>
+  const pageContainer =
+    document.getElementById("page-container");
+
+const pageFrame =
+    document.getElementById("pageFrame");
+
+const closeProject =
+    document.getElementById("close-project");
+
+
+function openProject(url) {
+
+    // حط صفحة المشروع داخل iframe
+    pageFrame.src = url;
+
+    // افتح الـiframe
+    pageContainer.classList.add("active");
+
+}
+
+
+function closeProjectPage() {
+
+    pageContainer.classList.remove("active");
+
+    // بعد انتهاء الأنيميشن نمسح الصفحة
+    setTimeout(() => {
+
+        pageFrame.src = "about:blank";
+
+    }, 600);
+
+}
+
+
+closeProject.addEventListener(
+    "click",
+    closeProjectPage
+);
+</script>
 </body>
 </html>
-
 
 
 

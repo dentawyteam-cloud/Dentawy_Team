@@ -1,0 +1,60 @@
+.fullscreen-btn {
+    position: fixed;
+    left: 22px;
+    bottom: 22px;
+
+    width: 52px;
+    height: 52px;
+
+    z-index: 999999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(201, 162, 77, .75);
+    border-radius: 16px;
+
+    background: rgba(8, 8, 8, .78);
+    color: #d9b65c;
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, .35),
+        0 0 18px rgba(201, 162, 77, .08);
+
+    transition:
+        transform .3s ease,
+        color .3s ease,
+        box-shadow .3s ease;
+}
+
+.fullscreen-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+
+    color: #fff1b0;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, .45),
+        0 0 24px rgba(201, 162, 77, .18);
+}
+
+.fullscreen-btn.is-fullscreen {
+    color: #fff1b0;
+    border-color: #f0d27b;
+}
+
+@media (max-width: 600px) {
+
+    .fullscreen-btn {
+        left: 15px;
+        bottom: 15px;
+
+        width: 46px;
+        height: 46px;
+    }
+}

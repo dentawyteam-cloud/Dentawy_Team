@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dentawy | Records Admin</title>
-
+    <link rel="stylesheet" href="full.css">
+    
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -91,13 +92,13 @@
         .theme-toggle::before { content: "☀"; width: 26px; height: 26px; position: absolute; left: 2px; top: 1px; border-radius: 50%; background: #C2983F; color: white; display: flex; align-items: center; justify-content: center; font-size: 15px; transition: .4s ease; }
         body.dark-mode .theme-toggle { background: #eee; }
         body.dark-mode .theme-toggle::before { content: "☾"; left: 30px; background: #20242d; color: #C2983F; }
-
+        
         @media(max-width:700px) { header { height: 70px; padding: 0 20px; } .logo img { width: 70px; } .back-btn span { display: none; } main { padding-top: 50px; } .form-grid { grid-template-columns: 1fr; } .form-group.full { grid-column: auto; } .admin-box { padding: 25px 20px; } #list { grid-template-columns: 1fr; } }
     </style>
 </head>
 
 <body>
-
+    
     <header>
         <a href="index.html" class="logo">
             <img src="ChatGPT_Image_Jul_31__2026__08_03_49_PM-removebg-preview.png" alt="Dentawy">
@@ -122,7 +123,7 @@
                 <i class="fa-solid fa-plus"></i>
                 <h2>Add New Record</h2>
             </div>
-
+            
             <div class="form-grid">
                 <div class="form-group">
                     <label>Subject</label>
@@ -134,7 +135,7 @@
                         <option value="microbiology">Microbiology</option>
                     </select>
                 </div>
-
+                
                 <div class="form-group">
                     <label>Record Type</label>
                     <select id="type">
@@ -142,7 +143,7 @@
                         <option value="Sections">Sections</option>
                     </select>
                 </div>
-
+                
                 <div class="form-group full">
                     <label>Record Title</label>
                     <input id="title" type="text" placeholder="Example: Lecture 1 Introduction">
@@ -163,7 +164,7 @@
             <h2>Existing Records</h2>
             <span class="count" id="count">0 Records</span>
         </div>
-
+        
         <div id="list"></div>
     </main>
 
@@ -177,41 +178,41 @@
         firebase.initializeApp(firebaseConfig);
         
         const db = firebase.database().ref("records");
-
+        
         /* =========================
            ADD RECORD
-        ========================= */
+           ========================= */
         document.getElementById("addBtn").addEventListener("click", function () {
             const title = document.getElementById("title").value.trim();
             const link = document.getElementById("link").value.trim();
             const subject = document.getElementById("subject").value;
             const type = document.getElementById("type").value;
-
+            
             if (!title || !link) {
                 alert("Please enter the record title and link.");
                 return;
             }
-
+            
             db.child(subject).child(type).push({
                 title: title,
                 link: link,
                 date: new Date().toLocaleDateString()
             });
-
+            
             document.getElementById("title").value = "";
             document.getElementById("link").value = "";
             alert("Record added successfully!");
         });
 
         /* =========================
-           LOAD RECORDS
+        LOAD RECORDS
         ========================= */
         db.on("value", snap => {
             const list = document.getElementById("list");
             const count = document.getElementById("count");
             let html = "";
             let total = 0;
-
+            
             snap.forEach(subjectSnap => {
                 const subjectName = subjectSnap.key;
                 
@@ -223,7 +224,7 @@
                         const record = item.val();
                         const subjectText = subjectName.replaceAll("-", " ");
                         const typeText = typeName.replaceAll("-", " ");
-
+                        
                         html += `
                             <div class="record-card">
                                 <div class="record-icon">
@@ -279,5 +280,10 @@
             localStorage.setItem("dentawy-theme", isDark ? "dark" : "light");
         });
     </script>
+    <button class="fullscreen-btn" id="fullscreenBtn" type="button" aria-label="Toggle fullscreen" title="Fullscreen">
+    <i class="fa-solid fa-expand"></i>
+        <script src="full.js"></script>
+
+</button>
 </body>
 </html>
